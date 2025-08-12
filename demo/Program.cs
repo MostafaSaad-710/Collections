@@ -259,7 +259,7 @@ namespace demo
 
             #region Generic Lists : LinkedList
 
-            //Generic Lists : LinkedList
+            ///Generic Lists : LinkedList
 
             //LinkedList<>
 
