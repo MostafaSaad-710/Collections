@@ -1,299 +1,374 @@
-﻿using System;
-using System.Collections;
-
-namespace demo
+﻿namespace Assignment
 {
     internal class Program
     {
-        public static void PrintArrayList(ArrayList list)
+        static void ReverseQueue(Queue<int> queue)
         {
-            Console.WriteLine( );
-            foreach( int i in list)
-            {
-                Console.Write( $"{i} ");
-            }
-            Console.WriteLine( );
-        }
+            Stack<int> stack = new Stack<int>();
 
-        public static void PrintList<T>(List<T> list)
-        {
-            Console.WriteLine();
-            foreach (T i in list)
+            while (queue.Count > 0)
             {
-                Console.Write($"{i} ");
+                stack.Push(queue.Dequeue());
             }
-            Console.WriteLine();
-        }
 
-        public static void PrintLinkedList(LinkedList<int> list)
-        {
-            Console.Write("null");
-            foreach (int i in list)
+            while (stack.Count > 0)
             {
-                Console.Write($" <- {i} -> ");
+                queue.Enqueue(stack.Pop());
             }
-            Console.Write("null");
         }
-        public static int SumList(List<int> list)
+        static bool IsBalanced(string s)
         {
-            int Sum = 0;
-            if (list is not null)
+            Stack<char> stack = new Stack<char>();
+
+            for (int i = 0; i < s.Length; i++)
             {
-                for (int i = 0; i < list.Count; i++)
+                char c = s[i];
+
+                if (c == '(' || c == '[' || c == '{')
                 {
-                    Sum += list[i];
+                    stack.Push(c);
+                }
+                else if (c == ')' || c == ']' || c == '}')
+                {
+                    if (stack.Count == 0)
+                    {
+                        return false;
+                    }
+
+                    char top = stack.Pop();
+
+                    if ((c == ')' && top != '(') ||
+                        (c == ']' && top != '[') ||
+                        (c == '}' && top != '{'))
+                    {
+                        return false;
+                    }
                 }
             }
-            return Sum;
+
+            return stack.Count == 0;
         }
+        static int[] RemoveDuplicates(int[] arr)
+        {
+            List<int> result = new List<int>();
+
+            for (int i = 0; i < arr.Length; i++)
+            {
+                bool found = false;
+                for (int j = 0; j < result.Count; j++)
+                {
+                    if (arr[i] == result[j])
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found)
+                {
+                    result.Add(arr[i]);
+                }
+            }
+
+            int[] finalResult = new int[result.Count];
+            for (int i = 0; i < result.Count; i++)
+            {
+                finalResult[i] = result[i];
+            }
+
+            return finalResult;
+        }
+        static void RemoveOddNumbers(List<int> list)
+        {
+            for (int i = list.Count - 1; i >= 0; i--)
+            {
+                if (list[i] % 2 == 1)
+                {
+                    list.RemoveAt(i);
+                }
+            }
+        }
+        static void SearchInStack(Stack<int> stack, int target)
+        {
+            Stack<int> tStack = new Stack<int>();
+            int count = 0;
+            bool found = false;
+
+            while (stack.Count > 0)
+            {
+                int current = stack.Pop();
+                tStack.Push(current);
+                count++;
+
+                if (current == target)
+                {
+                    found = true;
+                    break;
+                }
+            }
+
+            while (tStack.Count > 0)
+            {
+                stack.Push(tStack.Pop());
+            }
+
+            if (found)
+            {
+                Console.WriteLine("Target was found successfully and the count = " + count);
+            }
+            else
+            {
+                Console.WriteLine("Target was not found");
+            }
+        }
+        static List<int> FindSublistWithSum(List<int> list, int target)
+        {
+            for (int i = 0; i < list.Count; i++)
+            {
+                int sum = 0;
+                List<int> sublist = new List<int>();
+
+                for (int j = i; j < list.Count; j++)
+                {
+                    sum += list[j];
+                    sublist.Add(list[j]);
+
+                    if (sum == target)
+                    {
+                        return sublist;
+                    }
+                    if (sum > target)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            return new List<int>();
+        }
+        static void ReverseFirstK(Queue<int> queue, int k)
+        {
+            Stack<int> stack = new Stack<int>();
+
+            for (int i = 0; i < k; i++)
+            {
+                stack.Push(queue.Dequeue());
+            }
+
+            while (stack.Count > 0)
+            {
+                queue.Enqueue(stack.Pop());
+            }
+
+            int remaining = queue.Count - k;
+            for (int i = 0; i < remaining; i++)
+            {
+                int temp = queue.Dequeue();
+                queue.Enqueue(temp);
+            }
+        }
+
+
         static void Main(string[] args)
         {
-            #region What is Collections
+            #region Q01
+            //string[] input = Console.ReadLine().Split();
+            //int n = int.Parse(input[0]);
+            //int q = int.Parse(input[1]);
 
-            // Collections : Built-in DS in C#
-            // Array: Container
+            //string[] arrayInput = Console.ReadLine().Split();
+            //int[] arr = new int[n];
+            //for (int i = 0; i < n; i++)
+            //{
+            //    arr[i] = int.Parse(arrayInput[i]);
+            //}
 
-            // Collections in C#
-            // Lists
-            // Hashtables
+            //for (int i = 0; i < q; i++)
+            //{
+            //    int x = int.Parse(Console.ReadLine());
+            //    int count = 0;
 
-            // Generic - Non-Generic
-            // Lists:
-            // Non-Generics Lists: ArrayList - Stack - Queue
-            // Generics Lists    : List, LinkedList, Stack, Queue
+            //    for (int j = 0; j < n; j++)
+            //    {
+            //        if (arr[j] > x)
+            //        {
+            //            count++;
+            //        }
+            //    }
 
-            // Hashtables:
-            // Non-Generics HashTables : HashTable
-            // Generics HashTables     : Dictionary - SortedDictionary
-
+            //    Console.WriteLine(count);
+            //} 
             #endregion
 
-            #region Non-Generic Lists : ArrayList
+            #region Q02
+            //int n = int.Parse(Console.ReadLine());
+            //string[] input = Console.ReadLine().Split();
+            //int[] arr = new int[n];
 
-            //Lists
-            //Non-Generic Lists : ArrayList
+            //for (int i = 0; i < n; i++)
+            //{
+            //    arr[i] = int.Parse(input[i]);
+            //}
 
-            // ArrayList Like Array
-            // Array Based
-            // Index
+            //bool isPalindrome = true;
 
-            // Array     Indexed Collection : Fixed Size
-            // ArrayList Indexed Collection : Dynamic Size
+            //for (int i = 0; i < n / 2; i++)
+            //{
+            //    if (arr[i] != arr[n - 1 - i])
+            //    {
+            //        isPalindrome = false;
+            //        break;
+            //    }
+            //}
 
-            // Index  : 0 1 2 3 4 5
-            // items  : 4 5 6 7 8 1
-            // Size   : 6
+            //if (isPalindrome)
+            //{
+            //    Console.WriteLine("YES");
+            //}
+            //else
+            //{
+            //    Console.WriteLine("NO");
+            //} 
+            #endregion
 
-            // Arr[1] ----> 5
+            #region Q03
+            //Queue<int> queue = new Queue<int>();
+            //queue.Enqueue(1);
+            //queue.Enqueue(2);
+            //queue.Enqueue(3);
+            //queue.Enqueue(4);
+            //queue.Enqueue(5);
 
-            //int[] Numbers = { 9, 8, 7, 6, 1, 2, 3, 4, 5 };
+            //Console.WriteLine("Original Queue:");
+            //foreach (int item in queue)
+            //{
+            //    Console.Write(item + " ");
+            //}
+            //Console.WriteLine();
 
-            //Console.WriteLine(Numbers[1]);
-            //Numbers[1] = 12;
-            //Console.WriteLine(Numbers[1]);
+            //ReverseQueue(queue);
 
-            //ArrayList list = new ArrayList(); //defoulte capasity 4
-            // ArrayList list = new ArrayList(new int[] {1,2,3,4,5,6}); //modify capasity
-            //ArrayList list = new ArrayList(6); //modify capasity
+            //Console.WriteLine("Reversed Queue:");
+            //foreach (int item in queue)
+            //{
+            //    Console.Write(item + " ");
+            //}
+            //Console.WriteLine(); 
+            #endregion
 
-            //Console.WriteLine($"Count: {list.Count} , Capasity: {list.Capacity}");
+            #region Q04
+            //string input = Console.ReadLine();
 
-            //list.Add(1);
-            //list.Add(2);
-            //list.Add(3);
-            //list.Add(4);
-            //list.Add(5);
-            //list.Add(6);
-            //list.Add(7);
-            //list.Add(7);
-            //Console.WriteLine($"Count: {list.Count} , Capasity: {list.Capacity}");
+            //if (IsBalanced(input))
+            //{
+            //    Console.WriteLine("Balanced");
+            //}
+            //else
+            //{
+            //    Console.WriteLine("Not Balanced");
+            //} 
+            #endregion
 
-            //Console.WriteLine(list.IsFixedSize);
-            //Console.WriteLine(list.IsReadOnly);
-            //Console.WriteLine(list[1]);
-            //list[1] = 12;
-            //Console.WriteLine(list[1]);
+            #region Q05
+            //int[] arr = { 1, 2, 3, 2, 4, 1, 5 };
+            //int[] noDuplicates = RemoveDuplicates(arr);
 
-            //list.AddRange(new[] {10,11,12});
-            //PrintArrayList(list);
+            //Console.WriteLine("Array without duplicates:");
+            //for (int i = 0; i < noDuplicates.Length; i++)
+            //{
+            //    Console.Write(noDuplicates[i] + " ");
+            //}
+            #endregion
 
-            //int Index = list.BinarySearch(2);
-            //Console.WriteLine(Index);
+            #region Q06
+            //List<int> list = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+            //Console.WriteLine("Original list:");
+            //for (int i = 0; i < list.Count; i++)
+            //{
+            //    Console.Write(list[i] + " ");
+            //}
+            //Console.WriteLine();
 
-            //Employee E01 = new Employee() { Id = 1, Name = "Ahmed", Salary = 12000, Age = 29 };
-            //Employee E02 = new Employee() { Id = 2, Name = "Ali", Salary = 13000, Age = 30 };
-            //Employee E03 = new Employee() { Id = 3, Name = "Omar", Salary = 15000, Age = 35 };
-            //Employee E04 = new Employee() { Id = 4, Name = "Mariam", Salary = 14000, Age = 32 };
+            //RemoveOddNumbers(list);
+            //Console.WriteLine("After removing odd numbers:");
+            //for (int i = 0; i < list.Count; i++)
+            //{
+            //    Console.Write(list[i] + " ");
+            //}
+            #endregion
 
-            //ArrayList list02 = new ArrayList();
-            //list02.AddRange(new Employee[] { E01, E02, E03, E04 });
+            #region Q07
+            //Queue<object> queue = new Queue<object>();
 
-            ////int Index = list.BinarySearch(new Employee() { Name = "Ali"}, new EmployeeCompareName());
-            ////Console.WriteLine($"Index: {Index}");
+            //queue.Enqueue(1);
+            //queue.Enqueue("Apple");
+            //queue.Enqueue(5.28);
 
-            //int index = list02.BinarySearch(  0,   2, new Employee() { Name = "Ali" }, new EmployeeCompareName());
-            //Console.WriteLine(index);
-
-            //Console.WriteLine("=====================");
-            //foreach (Employee item in list02)
+            //Console.WriteLine("Queue contents:");
+            //foreach (object item in queue)
             //{
             //    Console.WriteLine(item);
             //}
 
-            //ArrayList list = new ArrayList();
-            //list.Add(1);
-            //list.Add(2);
-            //list.Add(3);
-            //list.Add(4);
-            //list.Add(5);
-            //list.Add(5);
-            //list.Add(6);
-            //list.Add(7);
-            //list.Add(8);
-            //Console.WriteLine($"Count: {list.Count} , Capasity: {list.Capacity}");
-            //list.Clear();
-            //Console.WriteLine($"Count: {list.Count} , Capasity: {list.Capacity}");
-
-
-            // bool Flag = list.Contains(20);
-            //Console.WriteLine(Flag);
-
-            //int[] Arr = new int[10];
-
-            //list.CopyTo(2, Arr, 3, 1);
-
-            //foreach (int item in Arr)
+            //Console.WriteLine("\nDequeuing items:");
+            //while (queue.Count > 0)
             //{
-            //    Console.WriteLine(item);
-            //}
+            //    object item = queue.Dequeue();
+            //    Console.WriteLine("Dequeued: " + item);
+            //} 
+            #endregion
 
-            //ArrayList arrayList = list.GetRange( 0, 2);
+            #region Q08
+            //Stack<int> stack = new Stack<int>();
 
-            //foreach (int item in arrayList)
+            //stack.Push(10);
+            //stack.Push(20);
+            //stack.Push(30);
+            //stack.Push(40);
+            //stack.Push(50);
+
+            //Console.Write("Enter target number: ");
+            //int target = int.Parse(Console.ReadLine());
+
+            //SearchInStack(stack, target); 
+            #endregion
+
+            #region Q10
+            //List<int> list = new List<int> { 1, 2, 3, 7, 5 };
+            //int target = 12;
+            //List<int> sublist = FindSublistWithSum(list, target);
+
+            //Console.WriteLine("Sublist with sum " + target + ":");
+            //for (int i = 0; i < sublist.Count; i++)
             //{
-            //    Console.WriteLine(item);
+            //    Console.Write(sublist[i] + " ");
+            //} 
+            #endregion
+
+            #region Q11
+            //Queue<int> queue = new Queue<int>();
+            //queue.Enqueue(1);
+            //queue.Enqueue(2);
+            //queue.Enqueue(3);
+            //queue.Enqueue(4);
+            //queue.Enqueue(5);
+
+            //int k = 3;
+
+            //Console.WriteLine("Original Queue:");
+            //foreach (int item in queue)
+            //{
+            //    Console.Write(item + " ");
             //}
+            //Console.WriteLine();
 
-            //int i = list.IndexOf(5);
-            //int i = list.IndexOf(5 , 4);
-            //int i = list.IndexOf(5 , 4 , 5);
-            //Console.WriteLine(i);
+            //ReverseFirstK(queue, k);
 
-
-            //list.Insert(0, 100);
-            //PrintArrayList(list);
-
-            //list.InsertRange(0, new int[] { 10, 20, 30, 40 });
-
-            //PrintArrayList(list);
-
-            //int i = list.LastIndexOf(5);
-            //Console.WriteLine(i);
-
-            //list.Remove(5);
-            //list.RemoveAt(0);
-            //list.RemoveRange(0,3);
-            //list.SetRange(0, new int[] { 10, 20, 30 });
-            //list.Sort();
-
-            //Console.WriteLine("Count: list.Count, Capacity: list.Capacity");
-
-            //list.TrimToSize(); // Delete | Release
-
-            //Console.WriteLine("Count: {list.Count}, Capacity: {list.Capacity}");
-
-            //PrintArrayList(list); 
+            //Console.WriteLine("After reversing first " + k + " elements:");
+            //foreach (int item in queue)
+            //{
+            //    Console.Write(item + " ");
+            //} 
             #endregion
-
-            #region Generic Lists: List
-            // Generic Lists: List
-            // List: Version Generic Of ArrayList
-            // List Like ArrayList Like Array: Generic - Dynamic Size
-
-            //List<int> list = new List<int>(new int[] { 1,2,3,4});
-            //List<int> list = new List<int>();
-
-            //list.Add(item: 1);
-            //list.Add(item: 2);
-            //list.Add(item: 3);
-            //list.Add(item: 4);
-            //list.Add(item: 4);
-            //list.Add("Hello World"); // Compiler
-
-            //PrintList(list);
-            //int Sum = SumList(list);
-            //Console.WriteLine(Sum);
-
-            //list.AddRange(new List<int>() { 10, 20, 30, 40, 50 });
-            //PrintList(list);
-
-            //int i = list.BinarySearch(100);
-            //Console.WriteLine(i);
-
-            //Employee E01 = new Employee() { Id = 1, Name = "Ahmed", Salary = 12000, Age = 29 };
-            //Employee E02 = new Employee() { Id = 2, Name = "Ali", Salary = 13000, Age = 30 };
-            //Employee E03 = new Employee() { Id = 3, Name = "Omar", Salary = 15000, Age = 35 };
-            //Employee E04 = new Employee() { Id = 4, Name = "Mariam", Salary = 14000, Age = 32 };
-
-            //List<Employee> emp = new List<Employee>() { E01, E02, E03, E04 };
-
-            //int i = emp.BinarySearch(E01);
-            //Console.WriteLine(i);
-
-            //Console.WriteLine($"Count: {list.Count} , Capasity: {list.Capacity}");
-
-            //list.EnsureCapacity(10);
-
-            //Console.WriteLine($"Count: {list.Count} , Capasity: {list.Capacity}");
-
-            //List<int> result = list.GetRange(0, 2);
-            //PrintList(result);
-
-            //list.Sort();
-
-            //Console.WriteLine($"Count: {list.Count} , Capasity: {list.Capacity}");
-            //list.TrimExcess();
-
-            //Console.WriteLine($"Count: {list.Count} , Capasity: {list.Capacity}"); 
-            #endregion
-
-            #region Generic Lists : LinkedList
-
-            ///Generic Lists : LinkedList
-
-            //LinkedList<>
-
-            //LinkedList<int> list = new LinkedList<int>();
-
-            ////list.AddFirst(1);
-            ////list.AddFirst(2);
-
-            //list.AddLast(1);
-            //list.AddLast(2);
-
-            //LinkedListNode<int> node = new LinkedListNode<int>(3);
-            //list.AddLast(node);
-
-            //list.AddAfter(node , 4);
-
-            //LinkedListNode<int> result = list.Find(1);
-            //list.AddBefore(result, 5);
-
-            //Console.WriteLine(list.First.Value);
-            //Console.WriteLine(list.Last.Value);
-            //list.Clear();
-
-            //Console.WriteLine( list.First.Next.Value);
-
-            //list.Remove(list.First);
-            //list.Remove(2);
-            //list.RemoveLast();
-
-            //PrintLinkedList(list); 
-            #endregion
-
-
-
 
         }
     }
